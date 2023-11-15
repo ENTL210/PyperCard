@@ -1,39 +1,36 @@
 """
-This simple app demonstrates how cards can automatically advance to another
-card after a certain amount of time. The auto_advance can either be a string
-containing the name of the next card, or a function to call that returns the
-name of the next card.
+A simple PyperCard app to get a user's name, and then display a friendly
+"Hello world!" type message.
 """
-from pypercard import App, Card
+# We need to use the a pypercard App.
+from pypercard import App
 
 
-def auto_func(app, card):
+# Create the app as the object called hello_app.
+hello_app = App()
+
+
+# In the "get_name" card, when you "click" on the "submit" button...
+@hello_app.transition("get_name", "click", "submit")
+def hello(app, card):
     """
-    Called while transitioning from card 2, to card 3.
+    Store the value in the card's input box, with the id "name", into the app's
+    datastore, under the key "name".
+
+    Then transition to the "say_hello" card.
     """
-    count = app.datastore.setdefault("counter", 0)
-    count += 1
-    app.datastore["counter"] = count
-    return "card3"
+    app.datastore["name"] = card.get_by_id("name").value
+    return "say_hello"
 
 
-# The templates for these cards can be found in pypercard.html.
-cards = [
-    Card("card1", auto_advance=10, transition="card2"),
-    Card("card2", auto_advance=20, transition=auto_func),
-    Card("card3", auto_advance=5, transition="card1"),
-]
+# In the "say_hello" card, when you "click" on the "again" button...
+@hello_app.transition("say_hello", "click", "again")
+def again(app, card):
+    """
+    Don't do anything except transition to the "get_name" card.
+    """
+    return "get_name"
 
 
-# Create the app while ensuring the counter is reset.
-carousel_app = App(
-    name="PyperCard carousel", datastore={"counter": 0}, cards=cards
-)
-
-
-@carousel_app.transition("card2", "click", "reset")
-def reset(app, card):
-    return "card1"
-
-
-carousel_app.start("card1")
+# Start the hello_app
+hello_app.start()
