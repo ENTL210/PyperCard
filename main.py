@@ -4,12 +4,20 @@ A simple PyperCard app to get a user's name, and then display a friendly
 """
 # We need to use the a pypercard App.
 from pypercard import App
-import re
+# import requests
+import requests
 
+# import json
+import json
+
+#import pyodide_http
+import pyodide_http
 
 # Create the app as the object called hello_app.
 weather_app = App()
 
+# Patch the Requests Libarary so it works with Pyscript
+pyodide_http.patch_all()
 
 # In the "get_name" card, when you "click" on the "submit" button...
 @weather_app.transition("get_name", "click", "submit")
@@ -21,28 +29,19 @@ def hello(app, card):
     Then transition to the "say_hello" card.
     """
     app.datastore["name"] = card.get_by_id("name").value
-    
-    headers = {
-        'key': '64c4ff4519da47c6bf6224642231911',
-        'q': 'hillsboro',
-        'aqi': 'no'
+
+    # Required parameters to fetch the weather api...
+    parameters = {
+    'key': '64c4ff4519da47c6bf6224642231911',
+    'q': f'{app.datastore["name"]}',
+    'aqi': 'no'
     }
     
-    url = 'http://api.weatherapi.com/v1/current.json?'
-    
-    async def fetchApi():
-        response = await pyfetch(
-            url,
-            method="POST",
-            headers=headers
-        )
-        
-        return response
-    
-    print(str(asyncio.run(fetchApi())))
-    
-    app.datastore["data"] = asyncio.run(fetchApi())
-    
+    # Fetch the api...
+    api_call = requests.get("http://api.weatherapi.com/v1/current.json", params=parameters)
+
+    app.datastore["data"] = api_call.text
+
     return "say_hello"
 
 

@@ -1,1 +1,1 @@
-packages = ["pypercard", "requests"]
+packages = ["pypercard", "requests","pyodide-http"]

@@ -7,11 +7,11 @@ import json
 import requests
 
 
-def fetch_api():
+def fetch_api(city):
     # Required parameters to fetch the weather api...
     parameters = {
     'key': '64c4ff4519da47c6bf6224642231911',
-    'q': 'hillsboro',
+    'q': f'{city}',
     'aqi': 'no'
     }
     
@@ -21,11 +21,11 @@ def fetch_api():
     # Return the api json string...
     return api_call.text
     
-def parse_object():
+def parse_object(city):
     # Parse the json object to a dictionary object...
-    parse_json = json.loads(fetch_api())
+    parse_json = json.loads(fetch_api(city))
     
     return parse_json
 
 
-parse_object()
+# print(parse_object("hillsboro"))

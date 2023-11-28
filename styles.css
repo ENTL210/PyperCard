@@ -1,0 +1,17 @@
+body {
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #2B2A4C;
+    color: #FFFFFF;
+}
+
+.display {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    width: 100px
+}
