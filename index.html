@@ -9,25 +9,34 @@
   <!-- This tag loads PyScript -->
   <script defer src="https://pyscript.net/latest/pyscript.js"></script>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
   <!-- This tells PyScript where to find the config file -->
   <py-config src="./pyscript.toml"></py-config>
   <!-- This tells PyScript where to find the Python code to run -->
   <py-script src="./main.py"></py-script>
   <py-script src="./api.py"></py-script>
 
-</head>
-
-<body>
-  <!-- This is the template for the card with the id "get_name" -->
-  <template class="display" id="get_name">
-    <label for="name">Enter your name: </label>
-    <input id="name" type="text" />
-    <button id="submit">Hello</button>
+  <!-- This is the template for the card with the id "input_card" -->
+  <template id="input-card">
+    <div class="display">
+      <h1>Weather</h1>
+      <div class="fieldbox-wrapper">
+        <h2>City of the United States</h2>
+        <input type="text" id="city-input" />
+        <button id="submit-btn">Submit</button>
+      </div>
+    </div>
   </template>
-  <!-- This is the template for the card with the id "say_hello" -->
-  <template class="display" id="say_hello">
+  <!-- This is the template for the card with the id "result_card" -->
+  <template id="result-card">
     <h1>{data}!</h1>
-    <button id="again">Again</button>
+    <button id="again" >Again</button>
   </template>
   <!-- That's it! -->
 </body>
